@@ -1,0 +1,40 @@
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>admin Edit</title>
+</head>
+<body>
+<form action="#" th:action="@{/admin/{id}}" th:method="PATCH" th:object="${user}">
+    <label for="id">ID</label>
+    <input readonly name="id" th:field="*{id}" type="number" id="id">
+    <br>
+    <label for="email">Email</label>
+    <input name="email" th:field="*{email}" type="text" id="email">
+    <br>
+    <label for="name">Name</label>
+    <input name="name" th:field="*{name}" type="text" id="name">
+    <br>
+    <label for="lastName">LastName</label>
+    <input name="lastName" th:field="*{lastName}" type="text" id="lastName">
+    <br>
+    <label for="age">Age</label>
+    <input name="age" th:field="*{age}" type="text" id="age">
+    <br>
+    <label for="password">Password</label>
+    <input name="password" th:field="*{password}" type="text" id="password">
+    <br>
+    <th:block th:each="role : ${allRoles}">
+        <input th:name="roles" type="checkbox"
+               th:value="${role.id}"
+               th:text="${role.name}"/>
+    </th:block>
+    <br>
+    <form action="/admin" th:method="GET">
+        <input type="submit" class="btn btn-primary btn-block" value="Update">
+    </form>
+</form>
+<form th:action="@{/admin}" th:method="GET">
+    <input type="submit" class="btn btn-primary btn-block" value="Back">
+</form>
+</body>
+</html>
