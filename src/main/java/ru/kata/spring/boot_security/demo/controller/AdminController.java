@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.service.AdminService;
 import ru.kata.spring.boot_security.demo.service.RoleService;
+import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,11 +18,11 @@ import java.util.Set;
 @Controller
 public class AdminController {
 
-    private final AdminService userService;
+    private final UserService userService;
     private final RoleService roleService;
     private final Set<Role> allRoles;
 
-    public AdminController(AdminService userService, RoleService roleService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
         if (roleService.findAllRoles().isEmpty()) {
@@ -39,12 +38,10 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public ModelAndView userView() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("allUsers");
-        modelAndView.addObject("allRoles", allRoles);
-        modelAndView.addObject("listUsers", userService.getAllUsers());
-        return modelAndView;
+    public String userView(Model model) {
+        model.addAttribute("allRoles", allRoles);
+        model.addAttribute("allUsers", userService.getAllUsers());
+        return "allUsers";
     }
 
     @PostMapping("/admin")
